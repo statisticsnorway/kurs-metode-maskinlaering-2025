@@ -1,5 +1,5 @@
-# \<repo-navn>
-Beskriv hva repoet inneholder.
+# Repo for maskinlæringkurs på SSB i september 2024
+Demo kode som viser klassiske metoder for regresjon og klassifisering, med oppgaver.
 
 ## Hvorfor er ikke dette repoet public?
 Denne overskriften og tilhørende avsnitt slettes hvis repoet er public. (Husk at for public repoer finnes det [krav](https://github.com/statisticsnorway/adr/blob/main/docs/0006-aapen-kildekode-i-ssb.md#kriterier-for-%C3%A5pen-kildekode) som må oppfylles.)
