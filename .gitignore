@@ -17,6 +17,7 @@
 *.xls
 *.xlsx
 *.zip
+!data/CA_housing_1990.csv
 
 # Blaise
 *.bdix
