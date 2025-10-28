@@ -1,4 +1,4 @@
-# Repo for maskinlæringkurs på SSB i september 2024
+# Repo for maskinlæringkurs på SSB (brukt sept 2024, okt 2025)
 Demo kode som viser klassiske metoder for regresjon og klassifisering, med oppgaver for kurset i maskinlæring. Kurset går over to dager.
 
 Dag 1 (2,5 timer):
