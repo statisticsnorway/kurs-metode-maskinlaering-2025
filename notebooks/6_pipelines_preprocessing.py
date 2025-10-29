@@ -5,7 +5,11 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.15.2
+#       jupytext_version: 1.18.1
+#   kernelspec:
+#     display_name: venv
+#     language: python
+#     name: venv
 # ---
 
 # %% [markdown]
@@ -46,12 +50,6 @@
 # ## Nyttige steger i en ML arbeidsflyt
 #
 # - GENERERING AV FEATURES. steger under viser mulige transformasjoner som kan gjøres, bare for å tenke om flere betraktninger
-#
-# $$\bigl[ \text{egen definert preprocessing?}\bigr] \longrightarrow \bigl[ \text{erstatte manglende verdier?}\bigr] \longrightarrow \bigl[ \text{indikator 'dummy' variabler?}\bigr] \longrightarrow $$ \
-# $$\longrightarrow \bigl[\text{lage nye variabler f.eks. tekst n-grams, eller X_i*X_j?}\bigr] \longrightarrow \bigl[\text{skalering?}\bigr]  \ $$
-#
-# - etterpå: FITTING AV MODELL. 
-# $$\longrightarrow \bigl[\text{tilpasning av modell parametere}\bigr]  $$
 #
 # <br>
 #
@@ -111,9 +109,9 @@ import pickle
 verbose=True
 
 # %%
-data_sti='data/'
-modell_sti='modeller/'
-resultat_sti='resultater/'
+data_sti='../data/'
+modell_sti='../modeller/'
+resultat_sti='../resultater/'
 
 # %%
 pd.set_option('display.precision', 2)
@@ -131,7 +129,8 @@ print(sklearn.__version__)
 # Så lenge måtte vi kaste bort alle kategoriske variabler, og alle punktene som hadde en manglende verdi. Hvordan kan vi håndtere disse?
 
 # %%
-housing=pd.read_csv('CA_housing_1990.csv', sep=';')
+
+housing=pd.read_csv(f'{data_sti}CA_housing_1990.csv', sep=';')
 
 # %%
 housing.dtypes

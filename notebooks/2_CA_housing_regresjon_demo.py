@@ -94,6 +94,7 @@ modell_sti='../modeller'
 resultat_sti='../resultater'
 
 
+
 # %%
 pd.set_option('display.precision', 2)
 
@@ -423,7 +424,7 @@ model_RF.predict(newX)
 # ### Lagre prediksjonsmatrisen
 
 # %%
-predic_matrix.to_csv(f'{resultater_sti}/California_housing_values_RandFor_predictions.csv', float_format='%.2f', sep=';', index=False)
+predic_matrix.to_csv(f'{resultat_sti}/California_housing_values_RandFor_predictions.csv', float_format='%.2f', sep=';', index=False)
 
 
 # %%
