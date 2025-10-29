@@ -145,7 +145,10 @@ def dollars_to_categ(house_vals):
     [   'Low', 
         'Medium',
         'High',
-        'Very pricy'    ])
+        'Very pricy',
+        ],
+        default='unknown'
+    )
     return(house_categs)
     
 housing['house_value_categ']= dollars_to_categ(housing['median_house_value'])   
