@@ -98,13 +98,19 @@ print(sklearn.__version__)
 # # Lese inn data
 
 # %%
+waterfront=pd.read_csv(f'{data_sti}/CA_housing_waterfront_regr.csv', sep=';')
 
 # %% [markdown]
 # # Inspisere data
 
 # %%
+waterfront.shape
 
 # %%
+waterfront.dtypes
+
+# %%
+waterfront.isna().sum()
 
 # %%
 
@@ -112,33 +118,55 @@ print(sklearn.__version__)
 # # Lage X, y 
 
 # %%
+X=waterfront.drop('median_house_value', axis=1)
 
 # %%
+X.columns='X_'+X.columns
+X.columns
 
 # %%
+X
 
 # %%
+y= waterfront.loc[:,'median_house_value'].values
+y
 
 # %% [markdown]
 # # Sjekk beskrivende statistikk
 
 # %%
+X.describe()
 
 # %%
+pd.DataFrame(y).describe()
 
 # %% [markdown] jupyter={"outputs_hidden": true}
 # # Dele i trenings- og testsetter
 
 # %%
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=11)
 
 # %%
+X_train.shape
 
 # %%
+y_train.shape
+
+# %%
+X_test.shape
 
 # %% [markdown] jupyter={"outputs_hidden": true}
 # # Trene random forest modellen
 
 # %%
+# nå prøver vi en ekte ML-s metode, en tilfeldig skog (random forest) 
+model = RandomForestRegressor()
+
+# tilpasning, sjekk treningstid
+start_time = time.time()
+model.fit(X_train, y_train)
+end_time = time.time()
+print(f"Training time: {end_time-start_time:.1f} seconds")
 
 # %%
 
@@ -146,6 +174,7 @@ print(sklearn.__version__)
 # # Lage prediksjoner i testsettet
 
 # %%
+y_pred = model.predict(X_test)
 
 # %%
 
@@ -153,6 +182,8 @@ print(sklearn.__version__)
 # # Vurdere modellen
 
 # %%
+mae = mean_absolute_error(y_test, y_pred)
+print(f'Mean Absolute Error: ${mae:.2f}')
 
 # %%
 
@@ -163,6 +194,13 @@ print(sklearn.__version__)
 # **NB**: Kryss-validering kan ta lenge! Som standard bruker GridSearchCV(...) 5-fold kryssvalidering og trener 5 modeller for hver kombinasjon av parametere som er prøvd.
 
 # %%
+CV_RF = GridSearchCV(RandomForestRegressor(), 
+                     param_grid={'min_samples_leaf': [1,2,3]}, 
+                     scoring='neg_mean_absolute_error')
+
+# fit-funksjonen her splitter opp treningssettet i trenings- og valideringssetter, 
+#    5 separate ganger, og vurderer ytelsen over de 5 tilfellene 
+CV_RF.fit(X_train, y_train)
 
 # %%
 
@@ -170,13 +208,16 @@ print(sklearn.__version__)
 # # Finn beste innstillingen av parameteren
 
 # %%
+CV_RF.cv_results_
 
 # %%
+CV_RF.best_estimator_
 
 # %% [markdown]
 # # Lage prediksjoner i testsettet med den beste innstillingen
 
 # %%
+y_pred=CV_RF.predict(X_test)
 
 # %%
 
@@ -184,6 +225,8 @@ print(sklearn.__version__)
 # # Sjekk ytelsen med den beste innstillingen
 
 # %%
+mae = mean_absolute_error(y_test, y_pred)
+print(f'Mean Absolute Error: ${mae:.2f}')
 
 # %%
 
