@@ -302,18 +302,63 @@ print(f'Mean Absolute Error: ${mae:.2f}')
 model_RF=model 
 y_pred_RF= y_pred
 
-
 # %% [markdown]
 # ### Prøv med dine egne modelldefinisjoner her!
 
 # %%
+model = RidgeCV()
+
+model.fit(X_train, y_train)
+
+# sjekke MAE på testsettet
+y_pred = model.predict(X_test)
+mae = mean_absolute_error(y_test, y_pred)
+print(f'Mean Absolute Error: ${mae:.2f}')
 
 # %%
 
 # %% [markdown]
-# ### Regresjons-løsningen for klassifisering - valgfri oppgave
+# ### Regresjons-løsningen for klassifisering
 
 # %%
+
+thresh_lowmed=130000
+thresh_medhigh=240000
+thresh_veryhigh=490000
+
+def dollars_to_categ(house_vals):
+    
+    house_categs= np.select(
+    [   house_vals<thresh_lowmed,
+        house_vals.between(thresh_lowmed, thresh_medhigh, inclusive='both'), 
+        house_vals.between(thresh_medhigh, thresh_veryhigh, inclusive='neither'),
+        house_vals>=thresh_veryhigh   ], 
+    [   'Low', 
+        'Medium',
+        'High',
+        'Very pricy',
+        ],
+        default='unknown'
+    )
+    return(house_categs)
+
+
+# %%
+y_pred_categ = dollars_to_categ(pd.Series(y_pred_RF))
+y_pred_categ
+
+# %%
+y_test_categ = dollars_to_categ(pd.Series(y_test))
+y_test_categ
+
+# %%
+accuracy = accuracy_score(y_test_categ, y_pred_categ)
+print(f"Accuracy: {accuracy:.2f}")
+
+# %%
+f1 = f1_score(y_test_categ, y_pred_categ, average="weighted")
+print(f"F1 score: {f1:.2f}")
+
 
 # %%
 

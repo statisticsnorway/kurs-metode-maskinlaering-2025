@@ -96,24 +96,39 @@ pd.set_option('display.precision', 2)
 # # Lese inn data
 
 # %%
+waterfront=pd.read_csv(f'{data_sti}/CA_housing_waterfront_classif.csv', sep=';')
 
 # %% [markdown]
 # # Inspisere data
 
 # %%
+waterfront.shape
 
 # %%
+waterfront.dtypes
 
 # %%
+waterfront.isna().sum()
+
+# %%
+waterfront.head()
 
 # %% [markdown] jupyter={"outputs_hidden": true}
 # # Lage X, y 
 
 # %%
+X=waterfront.drop('house_value_categ', axis=1)
 
 # %%
+X.columns='X_'+X.columns
+X.columns
 
 # %%
+X
+
+# %%
+y= waterfront.loc[:,'house_value_categ'].values
+y
 
 # %%
 
@@ -121,22 +136,32 @@ pd.set_option('display.precision', 2)
 # # Sjekk beskrivende statistikk
 
 # %%
+X.describe()
 
 # %%
+pd.DataFrame(y).value_counts()
 
 # %% [markdown] jupyter={"outputs_hidden": true}
 # # Dele i trenings- og testsetter
 
 # %%
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=11)
 
 # %%
+X_train.shape
 
 # %%
+y_train.shape
+
+# %%
+X_test.shape
 
 # %% [markdown] jupyter={"outputs_hidden": true}
 # # Trene support vector machine modellen
 
 # %%
+model = SVC()
+model.fit(X_train, y_train)
 
 # %%
 
@@ -144,30 +169,44 @@ pd.set_option('display.precision', 2)
 # # Lage prediksjoner i testsettet
 
 # %%
+y_pred = model.predict(X_test)
 
 
 # %%
+y_pred_SVM = y_pred
 
 # %% [markdown]
 # # Vurdere modellen
 
 # %%
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
 
 # %%
+f1 = f1_score(y_test, y_pred, average="weighted")
+print(f"F1 score: {f1:.2f}")
 
 # %% [markdown]
 # # Skriv ut en klassifiseringsrapport
 
 # %%
+report = classification_report(y_test, y_pred)
+print("Classification Report:\n", report)
 
 # %%
 
-# %%
+ # %%
+ labels=['Very pricy', 'High', 'Medium', 'Low']
 
 # %%
+conf_matrix = confusion_matrix(y_test, y_pred, labels=labels)
+conf_matrix
 
 # %%
+disp = ConfusionMatrixDisplay(confusion_matrix=conf_matrix, display_labels=labels)
+disp.plot()
 
 # %%
+pd.DataFrame(y_test).value_counts()
 
 # %%

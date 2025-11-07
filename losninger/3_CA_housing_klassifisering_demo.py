@@ -321,9 +321,26 @@ model_RF=model
 # ### Prøv med dine egne modelldefinisjoner her!
 
 # %%
+model = KNeighborsClassifier()
+
+# tilpasning, sjekk treningstid
+start_time = time.time()
+model.fit(X_train, y_train)
+end_time = time.time()
+print(f"Model trained in {end_time-start_time:.1f} seconds")
+
+# sjekke nøyaktigheten på testsettet
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+model_KNN = model
 
 
 # %%
+f1 = f1_score(y_test, y_pred, average="weighted")
+print(f"F1 score: {f1:.2f}")
+
 
 # %% [markdown]
 # ## Støttefunksjoner for testing
